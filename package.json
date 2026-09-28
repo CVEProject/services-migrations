@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "migrate-mongo": "^14.0.7",
+    "config": "^5.0.1"
+  },
+  "scripts": {
+    "db:migrate": "migrate-mongo up -f migrate-mongo-config.js"
+  }
+}
