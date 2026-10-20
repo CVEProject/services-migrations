@@ -5,6 +5,6 @@
     "config": "^5.0.1"
   },
   "scripts": {
-    "db:migrate": "migrate-mongo up -f migrate-mongo-config.js"
+    "db:migrate": "migrate-mongo up -f ./migrate-mongo-config.js"
   }
 }
