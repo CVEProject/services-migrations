@@ -1,16 +1,15 @@
-const ACTIVE_ROLE_PATH = 'authority.active_roles.0'
+const ACTIVE_ROLE_PATH = 'authority.0'
 
 module.exports = {
   async up (db) {
     const baseOrgCollection = db.collection('BaseOrg')
-    const orgCollection = db.collection('Org')
 
     await baseOrgCollection.updateMany(
       {},
       { $set: { disabled: true } }
     )
 
-    const enabledOrgUUIDs = (await orgCollection.distinct(
+    const enabledOrgUUIDs = (await baseOrgCollection.distinct(
       'UUID',
       { [ACTIVE_ROLE_PATH]: { $exists: true } }
     )).filter(UUID => typeof UUID === 'string' && UUID.length > 0)
