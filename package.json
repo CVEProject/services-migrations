@@ -1,4 +1,5 @@
 {
+  "version": "2.9.1",
   "devDependencies": {
     "dotenv": "^17.4.2",
     "migrate-mongo": "^14.0.7",
