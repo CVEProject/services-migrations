@@ -4,10 +4,6 @@ const config = require('config')
 
 const appEnv = process.env.NODE_ENV || 'development'
 
-const TLS_ENABLED = appEnv === 'development' ? false : true;
-const USE_AWS = appEnv === 'development' ? false : true;
-
-
 function getConfiguredValue (key) {
   const configPath = `${appEnv}.${key}`
   return config.has(configPath) ? config.get(configPath) : null
@@ -25,8 +21,8 @@ function getMongoConnectionString () {
   const dbName = getMongoDatabaseName()
   const dbLoginPrepend = dbUser && dbPassword ? `${dbUser}:${dbPassword}@` : ''
 
-  if (USE_AWS) {
-    return `mongodb://${dbLoginPrepend}${dbHost}:${dbPort}/${dbName}?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false`
+  if (process.env.useAWS) {
+    return `mongodb://${dbLoginPrepend}${dbHost}:${dbPort}/${dbName}?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false&tls=true&tlsCAFile=global-bundle.pem`
   }
 
   return `mongodb://${dbLoginPrepend}${dbHost}:${dbPort}/${dbName}`
@@ -51,15 +47,14 @@ function getMongoDatabaseName () {
 }
 
 function getMongoConnectionOptions () {
-  if (USE_AWS) {
+  if (process.env.useAWS) {
     return {
       authMechanism: 'SCRAM-SHA-1',
-      tls: TLS_ENABLED
+      tls: 'true'
     }
   }
 
   return {
-    tls: TLS_ENABLED
   }
 }
 
