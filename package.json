@@ -3,10 +3,12 @@
   "devDependencies": {
     "config": "^5.0.1",
     "dotenv": "^17.4.2",
-    "migrate-mongo": "^14.0.7"
+    "migrate-mongo": "^14.0.7",
+    "mongodb": "^7.7.0"
   },
   "scripts": {
-    "db:migrate": "migrate-mongo up -f ./migrate-mongo-config.js"
+    "db:migrate": "migrate-mongo up -f ./migrate-mongo-config.js",
+    "db:user-log": "node scripts/specific_user_log.mjs"
   },
   "dependencies": {
     "bson": "^6.10.4"

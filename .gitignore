@@ -10,6 +10,7 @@ node_modules/
 # Generated output
 coverage/
 npm-debug.log*
+scripts/specific_user_log-*.jsonl
 
 # Operating system files
 .DS_Store

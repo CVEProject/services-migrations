@@ -35,6 +35,31 @@ npm run db:migrate
 
 This runs `migrate-mongo up -f migrate-mongo-config.js`. The config uses the `migrations/` directory and records applied migrations in the `migrations_changelog` collection; it uses `migrations_changelog_lock` for migration locking.
 
+## Check records for a user
+
+Use the same `.env` connection settings as migrations:
+
+```sh
+npm run db:user-log -- --username someone@example.com
+npm run db:user-log -- --uuid xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+You can provide both arguments. Run from the project root when calling the script
+with `node scripts/specific_user_log.mjs` directly so the config loads `.env`.
+The script resolves matching identities in `BaseUser` and `User`, then prints
+only collections with matching records, with their counts and query filters.
+`Cve` and `Cve-Id` are checked first; the other collection checks are retained.
+
+Every full matching record is written incrementally to
+`scripts/specific_user_log-<timestamp>-<pid>.jsonl`, beside the script. Each line
+contains a `collection` name and a full `record`, using MongoDB Extended JSON to
+preserve BSON types. The script prints the output path when finished. A search
+without matches produces an empty file. Failed runs may leave a partial file.
+These generated files are ignored by Git.
+
+The script only reads database data and closes the file and database connection
+when finished. MongoDB driver 7 requires Node.js 20.19 or later.
+
 ## Current migrations
 
 | Migration | Change |
